@@ -1,29 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { getUrl } = require('../repository/url.repo');
+const { createShortUrl, getShortUrlStats, redirectShortUrl } = require('../controller/url.controller');
 
-router.get('/:shortcode', (req, res) => {
-  const { shortcode } = req.params;
-  const entry = getUrl(shortcode);
+// Existing routes
+router.post('/', createShortUrl);
+router.get('/:shortcode', getShortUrlStats);
 
-  if (!entry) {
-    return res.status(404).send('Shortcode not found');
-  }
-
-  const now = new Date();
-  const expiry = new Date(entry.expiresAt);
-  if (now > expiry) {
-    return res.status(410).send('Shortcode has expired');
-  }
-
-  // Track click (optional)
-  entry.clicks.push({
-    timestamp: now.toISOString(),
-    referrer: req.headers.referer || 'direct',
-    location: 'India', // stubbed for now
-  });
-
-  res.redirect(entry.originalUrl);
-});
+// ✅ New redirection route (MUST BE LAST or BEFORE stats depending on conflict)
+router.get('/:shortcode', redirectShortUrl);
 
 module.exports = router;

@@ -54,4 +54,34 @@ async function getShortUrlStats(req, res) {
   });
 }
 
-module.exports = { createShortUrl, getShortUrlStats };
+async function redirectShortUrl(req, res) {
+  const { shortcode } = req.params;
+  const entry = getUrl(shortcode);
+
+  if (!entry) {
+    await log('backend', 'warn', 'controller', `Redirection failed - shortcode '${shortcode}' not found`);
+    return res.status(404).send('Shortcode not found');
+  }
+
+  const now = new Date();
+  if (now > new Date(entry.expiresAt)) {
+    await log('backend', 'warn', 'controller', `Redirection failed - shortcode '${shortcode}' expired`);
+    return res.status(410).send('Shortened URL has expired');
+  }
+
+  // Optionally record click details (timestamp, referrer, etc.)
+  entry.clicks.push({
+    timestamp: now.toISOString(),
+    referrer: req.get('Referrer') || 'Direct',
+    location: 'India' // You could enhance this with real IP geo lookup later
+  });
+
+  await log('backend', 'info', 'controller', `Redirecting shortcode '${shortcode}'`);
+  res.redirect(entry.originalUrl);
+}
+
+module.exports = {
+  createShortUrl,
+  getShortUrlStats,
+  redirectShortUrl // ✅ export this too!
+};
