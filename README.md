@@ -1,56 +1,53 @@
-🔗 Project Overview – URL Shortener (Full Stack)
-🛠️ Backend
-Built with Node.js (Express) using a simple microservice architecture.
+# 🔗 URL Shortener – Full Stack Project
 
-Handles two main routes:
+A simple full stack URL Shortener built with **Node.js (Express)** for the backend and **React (Vite)** for the frontend. Users can create short URLs with optional custom codes and track their usage statistics.
 
-POST /shorturls: Creates a short URL with optional custom shortcode and expiry.
+---
 
-GET /shorturls/:shortcode: Returns usage stats and metadata for a shortcode.
+## 🛠 Backend (Node.js + Express)
 
-Features:
+### ✅ Features:
+- **POST `/shorturls`**: Create a new short URL.
+  - Accepts: `url`, optional `shortcode`, and `validity` (in minutes).
+- **GET `/shorturls/:shortcode`**: Fetch stats of a shortened URL.
 
-Validates user input for URL and shortcode format.
+### 🔧 Functionality:
+- Validates the URL and shortcode format.
+- Auto-generates shortcodes if not provided.
+- Sets expiry (defaults to 30 mins if not specified).
+- Tracks clicks with timestamps and referrers.
+- Stores data in-memory for fast access.
 
-Generates unique shortcodes when not provided.
+### 🧾 Logging Middleware:
+- Custom middleware logs each event (success, warning, or error).
+- Sends logs to an external evaluation API with required headers.
+- Fields like `stack`, `level`, and `package` are validated.
 
-Defaults expiry time to 30 minutes if not specified.
+---
 
-Stores data (short URL, expiry, click logs) in-memory.
+## 🎨 Frontend (React + Tailwind CSS)
 
-Tracks each click with timestamp and referrer.
+### 🌐 Pages:
+- **URL Shortener**:
+  - Enter long URL.
+  - Optional shortcode + expiry time.
+  - Displays shortened URL and expiry time.
+- **Stats Viewer**:
+  - Enter a shortcode.
+  - View stats like original URL, created time, expiry, click count, and details.
 
-Includes a custom-built Logging Middleware:
+### 🧩 Features:
+- Modern UI with responsive layout using Tailwind CSS.
+- Reusable Navbar component with navigation.
+- Axios used for API requests.
+- Proper error handling and user alerts.
 
-Sends logs to an external logging API.
+---
 
-Captures events like creation, errors, invalid requests, and stats lookups.
+## 🚀 How to Run Locally
 
-Reusable across backend or frontend.
-
-🎨 Frontend
-Built with React (Vite) and styled using Tailwind CSS.
-
-Two main pages:
-
-Shortener Page:
-
-Form to enter the long URL.
-
-Optional inputs for custom shortcode and expiry (in minutes).
-
-Shows the resulting short link and expiry time.
-
-Stats Page:
-
-Input a shortcode to fetch and view stats.
-
-Displays original URL, creation and expiry dates, total clicks, and click logs.
-
-Responsive and clean UI for a smooth user experience.
-
-Uses Axios for making API requests.
-
-Includes error handling with user-friendly alerts.
-
-Navigation via a minimal Navbar with links to both pages.
+### 🔧 Backend:
+```bash
+cd backend
+npm install
+node index.js
