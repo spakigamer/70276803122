@@ -43,3 +43,10 @@ A simple full stack URL Shortener built with **Node.js (Express)** for the backe
 - Proper error handling and user alerts.
 
 ---
+
+
+![Screenshot (526)](https://github.com/user-attachments/assets/0c3fda92-0a18-4c93-b94b-b11eee4943a3)
+
+![Screenshot (529)](https://github.com/user-attachments/assets/0881614e-335c-4ed7-a42b-2f0c18e0846f)
+
+
