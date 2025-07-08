@@ -43,11 +43,3 @@ A simple full stack URL Shortener built with **Node.js (Express)** for the backe
 - Proper error handling and user alerts.
 
 ---
-
-## 🚀 How to Run Locally
-
-### 🔧 Backend:
-```bash
-cd backend
-npm install
-node index.js
